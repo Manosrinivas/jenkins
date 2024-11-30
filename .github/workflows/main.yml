@@ -1,0 +1,71 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acknowledging Stage Env
+        run: |
+          echo "----This change is meant for Stage.-----"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' 
+      
+      - name: Install dependencies
+        run: |
+          echo "------Installing Dependencies------"
+          pip install --upgrade pip
+          pip install flask pytest
+          echo "------Completed Installing Dependencies-------"
+      - name: Run tests
+        run: |
+          echo "-------Running Test Script-------"
+          pytest --disable-warnings -q
+      - name: Build Application
+        run: |
+          echo "-------Building application-------"
+  stage-deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking Stage Release & Configuring libraries
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST_STG }}
+          username: ${{ secrets.EC2_USERNAME_STG }}
+          key: ${{ secrets.EC2_SSH_KEY_STG }}
+          port: 22
+          script: |
+            echo "-------This is New Release preparing for stage rollout.-------- "
+            sudo apt-get update
+            sudo apt update
+            sudo apt install python -y
+            curl -sS https://bootstrap.pypa.io/get-pip.py | python3
+            sudo apt install python3-pip -y
+            sudo apt install nginx -y
+            pip install flask pytest
+      - name: Deploying App in STAGE
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST_STG }}
+          username: ${{ secrets.EC2_USERNAME_STG }}
+          key: ${{ secrets.EC2_SSH_KEY_STG }}
+          port: 22
+          source: ./
+          target: ./
+          script: |
+            echo "Deploying App in STAGE"
+            sudo rm -rf  /etc/nginx/sites-available/default
+            sudo cp /home/ubuntu/default /etc/nginx/sites-available/
+            sudo systemctl restart nginx
+            cd /home/ubuntu/Jenkins0_0
+            python3 --version

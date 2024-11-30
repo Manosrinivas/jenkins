@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploying Flask Application with Jenkins</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold">Deploying Flask Application with Jenkins</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Overview</h2>
+            <p class="mb-4">
+                This guide outlines the steps required to deploy a Flask application using Jenkins for continuous integration and deployment (CI/CD). Jenkins is a popular automation server that helps to automate various stages of the deployment pipeline.
+            </p>
+            
+            <h2 class="text-xl font-semibold mb-2">Prerequisites</h2>
+            <ul class="list-disc list-inside mb-4">
+                <li>Jenkins server installed and running</li>
+                <li>Flask application code repository (e.g., GitHub, GitLab)</li>
+                <li>Python environment with necessary dependencies</li>
+                <li>Access to a deployment environment (e.g., server, cloud platform)</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold mb-2">Steps to Deploy</h2>
+
+            <h3 class="text-lg font-semibold mt-4">1. Setup Jenkins</h3>
+            <p class="mb-4">
+                Install Jenkins on your server or use a Jenkins cloud instance. Ensure Jenkins has access to your code repository and deployment environment.
+            </p>
+
+            <h3 class="text-lg font-semibold mt-4">2. Create a New Jenkins Job</h3>
+            <p class="mb-4">
+                Create a new Jenkins job (e.g., Pipeline job) in the Jenkins dashboard. Configure the job to pull your Flask application's code from your repository.
+            </p>
+
+            <h3 class="text-lg font-semibold mt-4">3. Configure Build Steps</h3>
+            <p class="mb-4">
+                In the job configuration, define the build steps to set up the Python environment and install necessary dependencies. Use a virtual environment if required:
+                <pre class="bg-gray-200 p-4 rounded">
+pip install -r requirements.txt
+                </pre>
+            </p>
+
+            <h3 class="text-lg font-semibold mt-4">4. Add Deployment Steps</h3>
+            <p class="mb-4">
+                Define steps to deploy the application to your server or cloud platform. This might include copying files, restarting services, or updating configurations.
+            </p>
+
+            <h3 class="text-lg font-semibold mt-4">5. Test and Verify</h3>
+            <p class="mb-4">
+                After deployment, test your Flask application to ensure it is running correctly. Set up Jenkins to notify you of the build and deployment status.
+            </p>
+
+            <h2 class="text-xl font-semibold mt-4">Conclusion</h2>
+            <p>
+                Using Jenkins to automate the deployment of your Flask application streamlines the process and ensures consistency. Customize your Jenkins pipeline to fit your specific needs and deployment environment.
+            </p>
+        </section>
+    </main>
+
+    <footer class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Deploying Flask with Jenkins. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
